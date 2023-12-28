@@ -1,1 +1,6 @@
-Rails app generated with [lewagon/rails-templates](https://github.com/lewagon/rails-templates), created by the [Le Wagon coding bootcamp](https://www.lewagon.com) team.
+# Plant Exchange
+## A marketplace app for sharing plants, cuttings seeds in your community.
+
+Built using Ruby on Rails.
+
+- devise for authentication
