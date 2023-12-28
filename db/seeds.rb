@@ -12,18 +12,27 @@ require 'faker'
 User.destroy_all
 
 10.times do
-  User.create(
-    username: Faker::Artist.name,
-    name: Faker::Name.first_name,
-    surname:Faker::Name.last_name,
-    email: Faker::Internet.email,
-)
+  user = User.create!(
+  username: Faker::Artist.name,
+  email: Faker::Internet.email,
+  password: "sdfsdf"
+  )
+  puts "#{user.username}: #{user.email}"
+end
+
+categories = ["bush", "shrub", "perennial", "annual", "houseplant"]
+categories.each do |e|
+  Category.create!(name: e)
+  puts "#{e}"
 end
 
 10.times do
-  Plant.create(
-    name: Faker::Lorem.words(number: 2),
-    description: Faker::Lorem.paragraph,
-    picture: Faker::LoremFlickr.image, search_terms: ['plant', 'seed']
+  plant = Plant.create!(
+  name: Faker::Lorem.words(number: 2).join(" "),
+  description: Faker::Lorem.paragraph,
+  category_id: Category.all.sample.id,
+  user_id: User.all.sample.id
+  # picture: Faker::LoremFlickr.image, search_terms: ['plant', 'seed']
   )
+  puts "#{plant.name}: #{plant.description}"
 end
