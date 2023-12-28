@@ -3,7 +3,7 @@ class CreatePlants < ActiveRecord::Migration[7.0]
     create_table :plants do |t|
       t.string :name
       t.text :description
-      t.references :users, null: false, foreign_key: true
+      t.references :user, null: false, foreign_key: true
       t.timestamps
     end
   end
