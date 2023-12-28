@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_12_27_185800) do
+ActiveRecord::Schema[7.0].define(version: 2023_12_28_141200) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -20,35 +20,44 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_27_185800) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "favourites", force: :cascade do |t|
-    t.bigint "users_id", null: false
+  create_table "conversations", force: :cascade do |t|
+    t.bigint "plant_id", null: false
+    t.bigint "sender_id"
+    t.bigint "receiver_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["users_id"], name: "index_favourites_on_users_id"
+    t.index ["plant_id"], name: "index_conversations_on_plant_id"
+    t.index ["receiver_id"], name: "index_conversations_on_receiver_id"
+    t.index ["sender_id"], name: "index_conversations_on_sender_id"
+  end
+
+  create_table "favourites", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_favourites_on_user_id"
   end
 
   create_table "messages", force: :cascade do |t|
     t.text "content"
     t.date "timestamp"
-    t.bigint "plants_id", null: false
-    t.bigint "sender_id"
-    t.bigint "receiver_id"
+    t.bigint "plant_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["plants_id"], name: "index_messages_on_plants_id"
-    t.index ["receiver_id"], name: "index_messages_on_receiver_id"
-    t.index ["sender_id"], name: "index_messages_on_sender_id"
+    t.bigint "user_id"
+    t.index ["plant_id"], name: "index_messages_on_plant_id"
+    t.index ["user_id"], name: "index_messages_on_user_id"
   end
 
   create_table "plants", force: :cascade do |t|
     t.string "name"
     t.text "description"
-    t.bigint "users_id", null: false
+    t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "categories_id", null: false
-    t.index ["categories_id"], name: "index_plants_on_categories_id"
-    t.index ["users_id"], name: "index_plants_on_users_id"
+    t.bigint "category_id", null: false
+    t.index ["category_id"], name: "index_plants_on_category_id"
+    t.index ["user_id"], name: "index_plants_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -65,10 +74,11 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_27_185800) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  add_foreign_key "favourites", "users", column: "users_id"
-  add_foreign_key "messages", "plants", column: "plants_id"
-  add_foreign_key "messages", "users", column: "receiver_id"
-  add_foreign_key "messages", "users", column: "sender_id"
-  add_foreign_key "plants", "categories", column: "categories_id"
-  add_foreign_key "plants", "users", column: "users_id"
+  add_foreign_key "conversations", "plants"
+  add_foreign_key "conversations", "users", column: "receiver_id"
+  add_foreign_key "conversations", "users", column: "sender_id"
+  add_foreign_key "favourites", "users"
+  add_foreign_key "messages", "plants"
+  add_foreign_key "plants", "categories"
+  add_foreign_key "plants", "users"
 end
