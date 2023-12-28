@@ -1,5 +1,5 @@
 class Plant < ApplicationRecord
-  belongs_to :users
+  belongs_to :user
   has_many :messages
-  belongs_to :categories
+  belongs_to :category
 end
