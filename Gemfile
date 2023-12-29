@@ -56,7 +56,13 @@ gem "sassc-rails"
 
 gem 'faker'
 
+# authentication
 gem 'devise'
+
+# image upload
+gem "cloudinary"
+
+
 
 
 group :development, :test do

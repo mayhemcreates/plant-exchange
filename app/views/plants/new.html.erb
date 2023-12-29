@@ -1,0 +1,6 @@
+<%= simple_form_for(@plant) do |f| %>
+  <%= f.input :photos, as: :file, input_html: { multiple: true } %>
+  <%= f.input :category_id, collection: @categories %>
+  <%= f.button :submit %>
+
+<% end %>

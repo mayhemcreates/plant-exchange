@@ -7,12 +7,23 @@ class PlantsController < ApplicationController
     @plant = Plant.find(params[:id])
   end
 
-  def create
-    
+  def new
+    @plant = Plant.new
+        @categories = Category.all
+
   end
 
-  def new
 
+  def create
+    @plant = Plant.new(plant_params)
+    @categories = Category.all
+    @plant.user = current_user
+    if @plant.save
+      redirect_to plant_path(@plant)
+    else
+      puts @plant.errors.full_messages
+      redirect_to new_plant_path
+    end
   end
 
   def edit
@@ -25,6 +36,12 @@ class PlantsController < ApplicationController
 
   def destroy
 
+  end
+
+  private
+
+  def plant_params
+    params.require(:plant).permit(:category_id, photos: [])
   end
 
 end
